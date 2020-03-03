@@ -1,12 +1,44 @@
 package piechart
 
 
+import(
+  "errors"
+  "sort"
+  "math"
+)
 
 
 
 
-func PlotPieChart(data []float64, colors []uint32, backgroundColor uint32, h, w int) []uint32 {
+
+func PlotPieChart(data []float64, colors []uint32, backgroundColor uint32, h, w int) ([]uint32, error) {
   screen := make([]uint32, (h * w));
+
+  // Make sure that data is well-formed
+  if (len(data) != len(colors)){
+    return nil, errors.New("Size mismatch between data and color arrays.")
+  }
+
+  if (len(data) == 0){
+    for i := 0; i < len(screen); i++ {
+      screen[i] = backgroundColor
+    }
+    return screen, nil
+  }
+
+  // Make a table so that things are searchable
+  sizes := make([]float64, len(data))
+  for i := range(data) {
+    if i != 0 {
+      sizes[i] = data[i] + data[i-1]
+    }else{
+      sizes[i] = data[i]
+    }
+  }
+  scale := sizes[len(sizes)-1]
+  for i := range(data){
+    sizes[i] /= scale
+  }
 
   index := 0
   for i := 0; i < h; i++{
@@ -14,7 +46,15 @@ func PlotPieChart(data []float64, colors []uint32, backgroundColor uint32, h, w 
     for j := 0; j < w; j++{
       y := (2.0 * (float64(j) / float64(w))) - 1.0
       if (x*x) + (y*y) <= 0.8 {
-        screen[index] = colors[0]
+        // Figure out which color to draw here
+        angle := math.Atan2(x, y) / math.Pi
+
+        dataIx := sort.SearchFloat64s(sizes, angle)
+
+        if(dataIx >= 0) && (dataIx < len(colors)){
+          screen[index] = colors[dataIx]
+        }
+
       }else{
         screen[index] = backgroundColor
       }
@@ -22,5 +62,5 @@ func PlotPieChart(data []float64, colors []uint32, backgroundColor uint32, h, w 
     }
   }
 
-  return screen
+  return screen, nil
 }

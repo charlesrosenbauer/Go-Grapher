@@ -27,7 +27,10 @@ func main(){
     screen = s
   }
 
-  chart := piechart.PlotPieChart(nil, []uint32{0xff,0xff00}, 0x0f0f0f, 256, 256)
+  chart, err := piechart.PlotPieChart([]float64{1,2,1}, []uint32{0xff,0xff00,0xff0000}, 0x0f0f0f, 256, 256)
+  if err != nil {
+    panic(err)
+  }
 
   pixels := screen.Pixels()
 
@@ -45,7 +48,7 @@ func main(){
 
   window.UpdateSurface()
 
-  sdl.Delay(1000)
+  sdl.Delay(5000)
 
 
 }
