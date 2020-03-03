@@ -1,7 +1,7 @@
 package main
 
 import(
-  "github.com/charlesrosenbauer/Go-Grapher/piechart"
+  "github.com/charlesrosenbauer/Go-Grapher/barchart"
   "github.com/veandco/go-sdl2/sdl"
 )
 
@@ -27,7 +27,7 @@ func main(){
     screen = s
   }
 
-  chart, err := piechart.PlotPieChart([]float64{1,2,1}, []uint32{0xff,0xff00,0xff0000}, 0x0f0f0f, 512, 512)
+  chart, err := piechart.PlotBarChart([]float64{1,2,1,5,7,3}, []uint32{0xff,0xff00,0xff0000,0xff00ff,0xffff,0x7f007f}, 0x0f0f0f, 512, 512)
   if err != nil {
     panic(err)
   }
@@ -48,7 +48,7 @@ func main(){
 
   window.UpdateSurface()
 
-  sdl.Delay(5000)
+  sdl.Delay(15000)
 
 
 }
