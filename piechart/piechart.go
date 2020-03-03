@@ -5,7 +5,7 @@ import(
   "errors"
   "sort"
   "math"
-  "fmt"
+  //"fmt"
 )
 
 
@@ -41,7 +41,7 @@ func PlotPieChart(data []float64, colors []uint32, backgroundColor uint32, h, w 
     sizes[i] /= scale
   }
 
-  fmt.Println(sizes)
+  //fmt.Println(sizes)
 
   index := 0
   min   :=  10.0
@@ -74,7 +74,7 @@ func PlotPieChart(data []float64, colors []uint32, backgroundColor uint32, h, w 
     }
   }
 
-  fmt.Println(min, max)
+  //fmt.Println(min, max)
 
   return screen, nil
 }
