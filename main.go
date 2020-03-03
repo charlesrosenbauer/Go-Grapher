@@ -1,7 +1,7 @@
 package main
 
 import(
-  "github.com/charlesrosenbauer/Go-Grapher/barchart"
+  "github.com/charlesrosenbauer/Go-Grapher/scatterchart"
   "github.com/veandco/go-sdl2/sdl"
 )
 
@@ -27,7 +27,8 @@ func main(){
     screen = s
   }
 
-  chart, err := piechart.PlotBarChart([]float64{1,2,1,5,7,3}, []uint32{0xff,0xff00,0xff0000,0xff00ff,0xffff,0x7f007f}, 0x0f0f0f, 512, 512)
+  //chart, err := barchart.PlotBarChart([]float64{1,2,1,5,7,3}, []uint32{0xff,0xff00,0xff0000,0xff00ff,0xffff,0x7f007f}, 0x0f0f0f, 512, 512)
+  chart, err := scatterchart.PlotScatterChart([]float64{1,2,1,5,7,3,12,3,0}, []float64{3,5,6,1,4,2,0,0,0}, []uint32{0xff,0xff00,0xff0000,0xff00ff,0xffff,0x7f007f,0x7f,0x7f00,0x7f0000}, 0x0f0f0f, 512, 512, 5)
   if err != nil {
     panic(err)
   }
