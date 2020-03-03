@@ -5,6 +5,7 @@ import(
   "errors"
   "sort"
   "math"
+  "fmt"
 )
 
 
@@ -30,7 +31,7 @@ func PlotPieChart(data []float64, colors []uint32, backgroundColor uint32, h, w 
   sizes := make([]float64, len(data))
   for i := range(data) {
     if i != 0 {
-      sizes[i] = data[i] + data[i-1]
+      sizes[i] = data[i] + sizes[i-1]
     }else{
       sizes[i] = data[i]
     }
@@ -40,19 +41,30 @@ func PlotPieChart(data []float64, colors []uint32, backgroundColor uint32, h, w 
     sizes[i] /= scale
   }
 
+  fmt.Println(sizes)
+
   index := 0
+  min   :=  10.0
+  max   := -10.0
   for i := 0; i < h; i++{
     x := (2.0 * (float64(i) / float64(h))) - 1.0
     for j := 0; j < w; j++{
       y := (2.0 * (float64(j) / float64(w))) - 1.0
-      if (x*x) + (y*y) <= 0.8 {
+      if (x*x) + (y*y) <= 0.875 {
         // Figure out which color to draw here
-        angle := math.Atan2(x, y) / math.Pi
+        angle := 0.5 + (math.Atan2(x, y) / (2 * math.Pi))
+        //fmt.Println(angle)
+        if angle > max {
+          max = angle
+        }
+        if angle < min {
+          min = angle
+        }
 
-        dataIx := sort.SearchFloat64s(sizes, angle)
+        colorIx := sort.SearchFloat64s(sizes, angle)
 
-        if(dataIx >= 0) && (dataIx < len(colors)){
-          screen[index] = colors[dataIx]
+        if(colorIx >= 0) && (colorIx < len(colors)){
+          screen[index] = colors[colorIx]
         }
 
       }else{
@@ -61,6 +73,8 @@ func PlotPieChart(data []float64, colors []uint32, backgroundColor uint32, h, w 
       index++
     }
   }
+
+  fmt.Println(min, max)
 
   return screen, nil
 }

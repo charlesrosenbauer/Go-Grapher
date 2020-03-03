@@ -27,7 +27,7 @@ func main(){
     screen = s
   }
 
-  chart, err := piechart.PlotPieChart([]float64{1,2,1}, []uint32{0xff,0xff00,0xff0000}, 0x0f0f0f, 256, 256)
+  chart, err := piechart.PlotPieChart([]float64{1,2,1}, []uint32{0xff,0xff00,0xff0000}, 0x0f0f0f, 512, 512)
   if err != nil {
     panic(err)
   }
@@ -35,8 +35,8 @@ func main(){
   pixels := screen.Pixels()
 
   chartIndex := 0
-  for i := 0; i < 256; i++ {
-    for j := 0; j < 256; j++ {
+  for i := 0; i < 512; i++ {
+    for j := 0; j < 512; j++ {
       pixelIndex := (i * 4) + (j * 512 * 4)
       pixels[pixelIndex  ] = byte((chart[chartIndex] >>  0) & 255)
       pixels[pixelIndex+1] = byte((chart[chartIndex] >>  8) & 255)
